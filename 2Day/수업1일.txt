@@ -1,0 +1,30 @@
+도커사용( 컨테이너 용 리눅스) - light Linux
+
+windows 10 
+            - Linux 용 Windows  하위 시스템 (WSL)
+            -가상머신 플랫폼
+
+------------------------------------------
+ 가상화
+
+https://github.com/HaSense/OnDevice_IoT/blob/main/docker/docker_v3.pdf
+  - OnDevice_IoT/docker/docker_v3.pdf
+------------------------------------------
+C programing
+
+nano 에디터 만들기 
+#> apt install nano
+
+||파일 만들기 nano 파일이름.c
+||컴파일 실행 gcc -o run 실행파일 -> / .run
+------------------------------------------
+도커2일차 
+gcc가 있는 공식 이미지를 이용해 cstudy004을 실행하기
+docker run —name cstudy004 -p 8082:80 -it gcc /bin/bash  (-p 앞에 -d 붙이먄 들어갓다 빠짐 exit 안해도됨)
+docker ps -a
+docker start cstudy004 
+확인- docker ps -a
+exit탈출 후 재시도->docker attach cstudy004, docker exec -it cstudy004 /bin/bash
+
+gcc, g++ 컴파일 가능
+
