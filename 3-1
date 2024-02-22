@@ -1,0 +1,192 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_DATA 100    //최대100명
+
+//학생 구조체
+typedef struct {
+    int id;          //학번으로 사용합니다.
+    int age;
+    char name[100];  //이름
+    char gen[50];
+    int isUsed;     // 1이면 현재값 사용 중 0이면 비어있음으로 표시
+} Student;
+
+Student database[MAX_DATA];
+
+void insertData(int id, int age, char* gen, char* name) {
+    for (int i = 0; i < MAX_DATA; i++) {
+        if (!database[i].isUsed) {
+            database[i].id = id;
+            database[i].age = age;
+            strcpy(database[i].gen, gen);
+            strcpy(database[i].name, name);
+            database[i].isUsed = 1;
+            printf("데이터 삽입됨: %d, %d, %s, %s\n", id, age, gen, name);
+            return;
+        }
+    }
+    printf("데이터베이스가 가득 찼습니다.\n");
+}
+
+void deleteData(int id) {
+    for (int i = 0; i < MAX_DATA; i++) {
+        if (database[i].isUsed && database[i].id == id) {
+            database[i].isUsed = 0;
+            printf("데이터 삭제됨: %d,%s\n", id, database[i].name);
+            return;
+        }
+    }
+    printf("데이터를 찾을 수 없습니다.\n");
+}
+
+void updateData(int id, int age, char* gen, char* newName) {
+
+    for (int i = 0; i<MAX_DATA; i++) {
+        if (database[i].isUsed && database[i].id == id) {
+            database[i].age = age;
+            strcpy(database[i].name, newName);
+            printf("데이터 수정됨: %d %d -> %s\n", id,age,newName);
+            return;
+        }
+    }
+    printf("데이터를 찾을 수 없습니다.\n");
+}
+
+void updateData1(int id,int age, char* gen, char* newName) {
+
+    for (int i = 0; i<MAX_DATA; i++) {
+        if (database[i].isUsed && database[i].age == age) {
+            database[i].id = id;
+            strcpy(database[i].name, newName);
+            printf("데이터 수정됨: %d %d -> %s\n", id,age,newName);
+            return;
+        }
+    }
+    printf("데이터를 찾을 수 없습니다.\n");
+}
+
+
+
+void searchData(int id) {
+    for (int i = 0; i < MAX_DATA; i++) {
+        if (database[i].isUsed && database[i].id == id) {
+            printf("데이터 찾음: %d, %d, %s, %s\n", id, database[i].age, database[i].gen, database[i].name);
+            return;
+        }
+    }
+    printf("데이터를 찾을 수 없습니다.\n");
+}
+void searchData1(char* name) {
+    for (int i = 0; i < MAX_DATA; i++) {
+        if (strcmp(name,database[i].name) == 0) {
+            strcpy(database[i].name, name);
+            printf("데이터 찾음: %d, %d, %s, %s\n", database[i].id,database[i].age,database[i].gen, name);
+            return;
+        }
+    }
+    printf("데이터를 찾을 수 없습니다.\n");
+
+}
+void alllist(int id,int age, char* gen,char* name) {
+    printf("*****   주소록  *****\n");
+            for (int i = 0; i <sizeof(database) / sizeof(Student); i++) {
+                if(database[i].id != '\0')
+                printf("학번:%d  나이:%d  성별:%s  이름:%s \n",database[i].id, database[i].age, database[i].gen, database[i].name);
+            }
+    printf("***** ========== *****");
+}
+int main() {
+    int choice, id,age;
+    char name[100];
+    char gen[50];
+    int n1,n2;
+
+    while (1) {
+        printf("\n메뉴:\n");
+        printf("1. 데이터 삽입\n");
+        printf("2. 데이터 삭제\n");
+        printf("3. 데이터 수정\n");
+        printf("4. 데이터 검색\n");
+        printf("5. 전체데이터 프로그램 \n");
+        printf("6. 프로그램 종료\n");
+        printf("선택: ");
+        scanf("%d", &choice);
+        getchar(); // 버퍼에 남은 개행 문자 제거 즉, 엔터제거 효과가 있음 편법
+
+        switch (choice) {
+            case 1:
+                printf("삽입할 학번을 입력하세요: ");
+                scanf("%d", &id);
+                printf("삽입할 나이를 입력하세요: ");
+                scanf("%d", &age);
+                printf("성별을 입력하세요: ");
+                scanf("%s", &gen);
+                getchar(); // 버퍼에 남은 개행 문자 제거
+                printf("이름을 입력하세요: ");
+                fgets(name, sizeof(name), stdin);
+                name[strcspn(name, "\n")] = 0; // 개행 문자 제거
+                insertData(id,age,gen,name);
+                break;
+            case 2:
+                printf("삭제할 학번을 입력하세요: ");
+                scanf("%d", &id);
+                deleteData(id);
+                break;
+            case 3:
+                printf("무엇으로 검색하여 수정하겠습니까? 7)학번 8)나이 ");
+                scanf("%d",&n1);
+                switch (n1) {
+                    case 7:
+                        printf("검색할 학번을 입력하세요: ");
+                        scanf("%d", &id);
+                        getchar(); // 버퍼에 남은 개행 문자 제거
+                        printf("새 이름을 입력하세요: ");
+                        fgets(name, sizeof(name), stdin);
+                        name[strcspn(name, "\n")] = 0; // 개행 문자 제거
+                        updateData(id,age, gen, name);
+                        break;
+                    case 8:
+                        printf("검색할 나이를 입력하세요: ");
+                        scanf("%s", &age );
+                        getchar(); // 버퍼에 남은 개행 문자 제거
+                        printf("새 이름을 입력하세요: ");
+                        fgets(name, sizeof(name), stdin);
+                        name[strcspn(name, "\n")] = 0; // 개행 문자 제거
+                        updateData1(id,age, gen, name);
+                        break;
+                }
+                break;
+            case 4:
+                printf("무엇으로 검색하여 찾겠습니까? 9)학번 10)이름 ");
+                scanf("%d",&n2);
+                switch (n2) {
+
+                    case 9:
+                        printf("검색할 학번을 입력하세요: ");
+                        scanf("%d", &id);
+                        searchData(id);
+                        break;
+                    case 10:
+                        printf("검색할 이름을 입력하세요: ");
+                        scanf("%s", name);
+                        searchData1(name);
+                        break;
+                }
+                break;
+            case 5:
+                printf("전체 주소북 출력:\n ");
+                alllist(id,age,gen,name);
+                break;
+
+            case 6:
+                printf("프로그램을 종료합니다.\n");
+                return 0;
+            default:
+                printf("잘못된 선택입니다. 다시 시도해 주세요.\n");
+        }
+    }
+
+    return 0;
+}
