@@ -45,9 +45,9 @@ void updateData(int id, int age, char* gen, char* newName) {
 
     for (int i = 0; i<MAX_DATA; i++) {
         if (database[i].isUsed && database[i].id == id) {
-            database[i].age = age;
+            //database[i].age = age;
             strcpy(database[i].name, newName);
-            printf("데이터 수정됨: %d %d -> %s\n", id,age,newName);
+            printf("데이터 수정됨: %d -> %s\n", id,newName);
             return;
         }
     }
@@ -57,10 +57,11 @@ void updateData(int id, int age, char* gen, char* newName) {
 void updateData1(int id,int age, char* gen, char* newName) {
 
     for (int i = 0; i<MAX_DATA; i++) {
+        
         if (database[i].isUsed && database[i].age == age) {
-            database[i].id = id;
+            //database[i].id = id;
             strcpy(database[i].name, newName);
-            printf("데이터 수정됨: %d %d -> %s\n", id,age,newName);
+            printf("데이터 수정됨: %d -> %s\n", age,newName);
             return;
         }
     }
@@ -149,7 +150,7 @@ int main() {
                         break;
                     case 8:
                         printf("검색할 나이를 입력하세요: ");
-                        scanf("%s", &age );
+                        scanf("%d", &age );
                         getchar(); // 버퍼에 남은 개행 문자 제거
                         printf("새 이름을 입력하세요: ");
                         fgets(name, sizeof(name), stdin);
@@ -187,6 +188,7 @@ int main() {
                 printf("잘못된 선택입니다. 다시 시도해 주세요.\n");
         }
     }
+
 
     return 0;
 }
