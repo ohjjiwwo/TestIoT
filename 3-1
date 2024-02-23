@@ -34,6 +34,8 @@ void deleteData(int id) {
     for (int i = 0; i < MAX_DATA; i++) {
         if (database[i].isUsed && database[i].id == id) {
             database[i].isUsed = 0;
+            database[i].id = 0;
+            database[i].age= 0;
             printf("데이터 삭제됨: %d,%s\n", id, database[i].name);
             return;
         }
@@ -57,7 +59,7 @@ void updateData(int id, int age, char* gen, char* newName) {
 void updateData1(int id,int age, char* gen, char* newName) {
 
     for (int i = 0; i<MAX_DATA; i++) {
-        
+
         if (database[i].isUsed && database[i].age == age) {
             //database[i].id = id;
             strcpy(database[i].name, newName);
@@ -92,10 +94,11 @@ void searchData1(char* name) {
 }
 void alllist(int id,int age, char* gen,char* name) {
     printf("*****   주소록  *****\n");
-            for (int i = 0; i <sizeof(database) / sizeof(Student); i++) {
-                if(database[i].id != '\0')
-                printf("학번:%d  나이:%d  성별:%s  이름:%s \n",database[i].id, database[i].age, database[i].gen, database[i].name);
-            }
+    for (int i = 0; i <sizeof(database) / sizeof(Student); i++) {
+        if(database[i].id != '\0')
+
+            printf("학번:%d  나이:%d  성별:%s  이름:%s \n",database[i].id,database[i].age,database[i].gen, database[i].name);
+    }
     printf("***** ========== *****");
 }
 int main() {
@@ -188,7 +191,5 @@ int main() {
                 printf("잘못된 선택입니다. 다시 시도해 주세요.\n");
         }
     }
-
-
     return 0;
 }
