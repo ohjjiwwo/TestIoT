@@ -125,6 +125,8 @@ int main() {
                 scanf("%d", &id);
                 printf("삽입할 나이를 입력하세요: ");
                 scanf("%d", &age);
+
+
                 printf("성별을 입력하세요: ");
                 scanf("%s", &gen);
                 getchar(); // 버퍼에 남은 개행 문자 제거
@@ -154,6 +156,19 @@ int main() {
                     case 8:
                         printf("검색할 나이를 입력하세요: ");
                         scanf("%d", &age );
+                        int found = 0;
+                        int count = 0;
+                        for (int i = 0; i < sizeof(database) / sizeof(Student); i++) {
+                            if (database[i].age == age) {
+                                found = 1;
+                                count++;
+                            }
+                        }
+                        if (count > 1) {
+                            printf("같은 나이를 가진 회원이 있습니다.\n");
+                            printf("다른 방법으로 다시 선택하여 수정하세요.\n");
+                            break;
+                        }
                         getchar(); // 버퍼에 남은 개행 문자 제거
                         printf("새 이름을 입력하세요: ");
                         fgets(name, sizeof(name), stdin);
